@@ -1,67 +1,44 @@
 # Platform Layers
 
-SalesWon AI operating system — layer model and future SDK.
+SalesWon AI **Operating System** (internal: **AIMS** — Enterprise AI Management System).
 
-## Layers
+## Frozen Architecture (ADR-005)
 
-```text
-/specifications          Layer 0 — Contracts (ISO-style)
-/shared                  Layer 1 — Business standards
-/runtime                 Layer 2 — Platform runtime
-/agents                  Layer 3 — Agent specifications
-/platform                Integrations (implements data-spec)
-/architecture            Blueprint workspace
-Layer 4                  Customer configuration (per deployment)
-Layer 5                  Customer CRM data (never in repo)
-```
+Seven specifications. No 8th without ADR. Build **depth**, not breadth.
 
-## Governed Response Pipeline
+## Layer Stack
 
 ```text
-Business Standards → Runtime → Agent → Customer Config → CRM Context → LLM → Governed Response
+/specifications     7 contracts
+/policies           Enterprise rules (inherit only)
+/runtime            Orchestration, decision engine, governance
+/shared             Playbooks, organizational memory, workforce map
+/agents             Digital Employees (22 files) + Workforce Manager spec
+/platform           ServiceNow, DATA_DICTIONARY, RAG
+/architecture       ADRs, roadmap, domain workspaces
+Layer 4             Customer config (future)
+Layer 5             CRM data (never in repo)
 ```
 
-## Context Assembly
-
-See [runtime/RUNTIME_CONTEXT.md](../runtime/RUNTIME_CONTEXT.md):
+## Digital Workforce
 
 ```text
-System Prompt → Agent Prompt → Customer Config → ServiceNow Data →
-Knowledge Retrieval → User Behavior → Conversation History → Current Request
+Workforce Manager (Phase 2 spec)
+        ↓
+Sales Manager → Sales Rep → Follow-Up
+Parallel: Customer Service
+Supporting: Account Research
 ```
 
-## SalesWon AI SDK (Planned)
+## Accountability vs Authority
 
-| Module | Spec / Implementation |
-|--------|----------------------|
-| Runtime | runtime-spec, runtime/ |
-| Agent Specification | agent-spec, agents/ |
-| Governance | governance-spec, runtime/GOVERNANCE.md |
-| Memory Engine | MEMORY_MODEL, MEMORY_SHORT/LONG |
-| Prompt Builder | RUNTIME_CONTEXT |
-| Decision Engine | DECISION_ENGINE |
-| Business Reasoning | BUSINESS_REASONING |
-| ServiceNow Connector | platform/servicenow, DATA_DICTIONARY |
-| Tool Definitions | agents/TOOLS |
-| Behavior Engine | platform/user-behavior |
-| Feedback Engine | platform/feedback |
-| Evaluation Engine | QUALITY, METRICS |
+| Spec | Question | File |
+|------|----------|------|
+| Authority | Can I do this? | AUTHORITY.md |
+| Accountability | Am I succeeding? | ACCOUNTABILITY.md |
 
-Phase 1 delivers contracts. SDK implementation is Phase 2.
+## SDK Modules (Phase 2)
 
-## Cross-Product Reuse
+Runtime, Governance, Workforce orchestration, Memory, Prompt builder, Decision engine (weighted formulas), ServiceNow connector, Feedback/accountability loops.
 
-| Product | Imports |
-|---------|---------|
-| SalesWon Operator | Full implementation |
-| Cohort | specifications/* + customer layers |
-| Axiom | specifications/* + customer layers |
-| AI Council | governance-spec, runtime-spec (orchestration) |
-
-## Extension
-
-- New agent: copy `agents/_template/`
-- New CRM object: update `data-spec.md` → `DATA_DICTIONARY.md`
-- New domain: top-level README charter only
-
-See [architecture/ROADMAP.md](../architecture/ROADMAP.md).
+See [contract-evolution.md](contract-evolution.md).

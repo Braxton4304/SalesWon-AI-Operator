@@ -1,52 +1,54 @@
 # Getting Started
 
-Create your first SalesWon AI agent in five steps.
+## Digital Workforce v1
 
-## 1. Read the Specs
+Five Digital Employees are ready for client demo review. Each has **22 contract files**.
 
-Start with [specifications/README.md](../../specifications/README.md):
+| Agent | Demo prompt |
+|-------|-------------|
+| Customer Service | "Summarize INC0012345, SLA risk, draft empathetic reply" |
+| Sales Rep | "Review Acme Expansion — MEDDIC gaps and next best action" |
+| Sales Manager | "Pipeline summary for my team — forecast risks" |
+| Account Research | "Brief me on Globex Corp before tomorrow's QBR" |
+| Follow-Up | "What follow-ups am I overdue on? Draft top priority email" |
 
-- [agent-spec.md](../../specifications/agent-spec.md) — required files
-- [data-spec.md](../../specifications/data-spec.md) — CRM permissions
-- [governance-spec.md](../../specifications/governance-spec.md) — confidence and audit
+## Multi-Agent Demo Flow
 
-## 2. Copy the Template
+1. **Account Research** produces `account_brief`
+2. Human switches to **Sales Rep** with brief context
+3. **Sales Rep** produces `opportunity_summary` + `next_best_action`
+4. **Follow-Up** drafts `suggested_message` from opp context
+
+Phase 1: handoffs are **human-mediated** (see each agent's COLLABORATION.md).
+
+## Edit an Existing Employee
+
+1. Read [specifications/agent-spec.md](../specifications/agent-spec.md) (22 files)
+2. Read agent's AUTHORITY.md + ACCOUNTABILITY.md first
+3. Schema changes to OUTPUT_SCHEMA.md may require ADR if contract-breaking
+4. Cross-check COLLABORATION.md against [shared/DIGITAL_WORKFORCE.md](../shared/DIGITAL_WORKFORCE.md)
+
+## Create a New Role
 
 ```powershell
-cd c:\Users\brada\SalesWon-AI-Operator
-Copy-Item -Recurse agents\_template agents\customer-service
+Copy-Item -Recurse agents\_template agents\new-role-name
 ```
 
-## 3. Fill Domain Files
+Fill all 22 files. **New roles require ADR** (architecture frozen per ADR-005).
 
-Replace template placeholders in:
+## Key Questions Each Agent Answers
 
-- `IDENTITY.md`, `MISSION.md`, `CAPABILITIES.md`, `LIMITATIONS.md`
-- `BEHAVIOR.md`, `DECISION_MODEL.md`, `ESCALATION.md`
-- Extend `OUTPUT_SCHEMA.md` with role fields (e.g. `customer_sentiment`)
+| File | Question |
+|------|----------|
+| AUTHORITY.md | Can I do this? |
+| ACCOUNTABILITY.md | Am I succeeding? |
+| EXPLAINABILITY.md | Why this recommendation? |
+| TRUST_MODEL.md | Why trust this? |
 
-## 4. Link Shared and Platform
+## Specifications
 
-In `AGENT.md`, list imports:
+Start with [specifications/README.md](../specifications/README.md) — 7 frozen specs.
 
-- Relevant [shared/](../../shared/) playbooks
-- [platform/DATA_DICTIONARY.md](../../platform/DATA_DICTIONARY.md) objects this agent uses
+## Policies
 
-## 5. Record Decisions
-
-If you change permissions or add CRM objects:
-
-1. Update [specifications/data-spec.md](../../specifications/data-spec.md)
-2. Update [platform/DATA_DICTIONARY.md](../../platform/DATA_DICTIONARY.md)
-3. Add ADR to [architecture/DECISIONS.md](../../architecture/DECISIONS.md)
-
-## Do Not
-
-- Copy runtime files into the agent folder
-- Create `SOUL.md`, `MEMORY.md`, or `EVALUATION.md`
-- Store customer CRM data in this repo
-
-## Next
-
-- [architecture/ROADMAP.md](../../architecture/ROADMAP.md) — Phase 2 runtime SDK
-- [docs/architecture/platform-layers.md](../architecture/platform-layers.md) — full layer model
+All agents inherit [policies/](../policies/) — do not redefine in agent folders.

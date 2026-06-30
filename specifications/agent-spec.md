@@ -1,72 +1,58 @@
 ---
-spec_version: "1.0.0"
+spec_version: "1.1.0"
 spec_id: agent-spec
-title: SalesWon AI Agent Specification
+title: SalesWon AI Digital Employee Specification
 ---
 
 # Agent Specification
 
-Defines the required file structure, import contract, and output schema for every SalesWon AI agent.
+Defines the required file structure for every **Digital Employee** and the Workforce Manager spec.
 
 ## Scope
 
-Each agent owns **domain expertise only**. Runtime, governance, and platform integration are imported — not redefined per agent.
+Each agent owns domain expertise only. Runtime, governance, policies, and platform are imported.
 
-## Required Files
+## Required Files (22)
 
-Every agent folder MUST contain:
-
-| File | Purpose |
+| File | Answers |
 |------|---------|
-| `AGENT.md` | Index, runtime import contract, spec references |
-| `IDENTITY.md` | Who am I? Role, audience, tone boundaries |
-| `MISSION.md` | Why do I exist? Business outcome |
-| `CAPABILITIES.md` | What am I allowed to do? |
-| `LIMITATIONS.md` | What am I never allowed to do? |
-| `BEHAVIOR.md` | Observable response patterns |
-| `DECISION_MODEL.md` | Agent-specific prioritization (runtime DECISION_ENGINE governs) |
-| `TOOLS.md` | Tool definitions and usage rules |
-| `MEMORY_SHORT.md` | Current conversation and task scope |
-| `MEMORY_LONG.md` | Preferences, history, org memory scope |
-| `PROMPTS.md` | Prompt assembly fragments |
-| `OUTPUT_SCHEMA.md` | Machine-readable response contract |
-| `QUALITY.md` | Correctness, completeness, hallucination avoidance |
-| `METRICS.md` | Acceptance rate, edits, escalation %, confidence, ROI |
-| `ESCALATION.md` | When and how to escalate |
+| `AGENT.md` | Index and imports |
+| `IDENTITY.md` | Who am I? |
+| `MISSION.md` | Why do I exist? |
+| `CAPABILITIES.md` | What can I do? |
+| `LIMITATIONS.md` | Hard prohibitions |
+| `BEHAVIOR.md` | Response patterns |
+| `DECISION_MODEL.md` | Weighted priority formula |
+| `TOOLS.md` | ServiceNow tools |
+| `MEMORY_SHORT.md` | Session memory |
+| `MEMORY_LONG.md` | User-scoped long memory |
+| `PROMPTS.md` | Prompt fragments |
+| `OUTPUT_SCHEMA.md` | Input→Audit pipeline + JSON |
+| `QUALITY.md` | Quality bar + demo scenarios |
+| `METRICS.md` | Operational + Business KPIs |
+| `ESCALATION.md` | Pre-defined triggers |
+| `AUTHORITY.md` | Can I do this? |
+| `ACCOUNTABILITY.md` | Am I succeeding? |
+| `COLLABORATION.md` | Handoffs and produces/consumes |
+| `REASONING_PATTERNS.md` | Reasoning chain |
+| `TRUST_MODEL.md` | Why trust this? |
+| `EXPLAINABILITY.md` | Why this recommendation? |
+| `BUSINESS_OBJECTIVES.md` | Outcome drivers |
 
 ## Prohibited Files
 
-- `SOUL.md` — replaced by operational enterprise files
-- `MEMORY.md` — use SHORT + LONG split
-- `EVALUATION.md` — use QUALITY + METRICS split
+SOUL.md, MEMORY.md, EVALUATION.md
 
 ## Import Contract
 
 ```text
-Agent Response =
-  shared/ (industry IP)
-  + runtime/ (orchestration, decision engine, governance)
-  + platform/ (CRM data via data-spec)
-  + agent/ (domain expertise)
-  + customer config (Layer 4)
-  + CRM context (Layer 5)
+policies/ + shared/ + runtime/ + platform/ + agent/ + Layer 4 + CRM
 ```
-
-## OUTPUT_SCHEMA Requirements
-
-Every agent MUST define a JSON schema in `OUTPUT_SCHEMA.md` including at minimum:
-
-- `summary` — human-readable response summary
-- `confidence` — float 0.0–1.0
-- `sources` — array of grounding references (CRM record IDs, KB articles)
-- `recommended_action` — optional; required when decision is `recommend`
-
-Agent-specific fields are allowed (e.g. `customer_sentiment` for Customer Service).
 
 ## Machine-Readable Contract
 
 ```yaml
-spec_version: "1.0.0"
+spec_version: "1.1.0"
 spec_id: agent-spec
 required_files:
   - AGENT.md
@@ -84,24 +70,27 @@ required_files:
   - QUALITY.md
   - METRICS.md
   - ESCALATION.md
-prohibited_files:
-  - SOUL.md
-  - MEMORY.md
-  - EVALUATION.md
-output_schema_required_fields:
-  - summary
-  - confidence
-  - sources
+  - AUTHORITY.md
+  - ACCOUNTABILITY.md
+  - COLLABORATION.md
+  - REASONING_PATTERNS.md
+  - TRUST_MODEL.md
+  - EXPLAINABILITY.md
+  - BUSINESS_OBJECTIVES.md
 imports:
+  - specifications/accountability-spec.md
+  - specifications/workforce-spec.md
   - specifications/runtime-spec.md
   - specifications/governance-spec.md
   - specifications/data-spec.md
+  - policies/
   - runtime/
   - shared/
 template_path: agents/_template/
+file_count: 22
 ```
 
 ## References
 
-- Implements: [runtime-spec.md](runtime-spec.md), [governance-spec.md](governance-spec.md), [data-spec.md](data-spec.md)
+- Implements: runtime-spec, governance-spec, data-spec, workforce-spec, accountability-spec
 - Implemented by: [agents/](../agents/)

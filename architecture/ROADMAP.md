@@ -1,44 +1,38 @@
 # Technical Roadmap
 
-**Status:** Phase 1 — Specification and scaffold (this repo)
-
 Implements: [specifications/platform-spec.md](../specifications/platform-spec.md)
 
-## Phase 1 — Specification & Scaffold (Current)
+## Phase 1 — Operating System & Digital Workforce v1 (Current)
 
-- [x] `/specifications` contract layer
-- [x] Runtime, agent, platform, shared folder structure
-- [x] Agent template with OUTPUT_SCHEMA
-- [ ] Architecture decisions for Azure + ServiceNow stack
-- [ ] First production agent (TBD: Customer Service or Sales Rep)
+- [x] Platform scaffold (specs, runtime, platform, shared)
+- [x] 7-spec architecture freeze (ADR-005)
+- [x] `policies/` enterprise policy layer
+- [x] Digital Workforce v1 — 5 employees × 22 files
+- [x] Workforce Manager spec (Phase 2 runtime)
+- [x] Shared playbooks + organizational memory
+- [ ] Azure + ServiceNow stack ADRs
+- [ ] Runtime SDK (Phase 2)
 
-## Phase 2 — Runtime SDK (Planned)
+## Phase 2 — Runtime SDK
 
-- Prompt builder (RUNTIME_CONTEXT assembly)
-- Decision engine implementation
-- Memory engine (short + long, Azure SQL)
-- Governance middleware (audit, confidence, escalation)
+- Prompt builder (RUNTIME_CONTEXT)
+- Decision engine + priority score calculator
+- Workforce Manager orchestration
 - ServiceNow connector
+- Accountability learning loops (feedback → MEMORY_LONG)
 
-## Phase 3 — Agent Deployment (Planned)
+## Phase 3 — Customer Deployment
 
-- Customer Service Agent
-- Sales Rep Agent
-- Sales Manager Agent
+- Layer 4 configuration per customer
+- Phase 2 `execute` authority level (approved workflows)
 
-## Phase 4 — Customer Layer (Planned)
+## Digital Workforce v1 Status
 
-- Layer 4 configuration per deployment
-- ServiceNow instance mapping
-- Stage definitions, approval rules, escalation contacts
-
-## Decisions Pending
-
-| Decision | Options | Target |
-|----------|---------|--------|
-| Primary LLM provider | Azure OpenAI, Anthropic via Azure | TBD |
-| Vector store | Azure AI Search, pgvector | TBD |
-| App hosting | Azure Functions, Container Apps | TBD |
-| Frontend framework | Next.js, React SPA | TBD |
-
-Record decisions in [DECISIONS.md](DECISIONS.md).
+| Component | Status |
+|-----------|--------|
+| customer-service | Complete (22 files) |
+| sales-rep | Complete (22 files) |
+| sales-manager | Complete (22 files) |
+| account-research | Complete (22 files) |
+| follow-up | Complete (22 files) |
+| workforce-manager | Spec complete (22 files) |

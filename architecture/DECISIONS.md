@@ -63,3 +63,70 @@ Use operational files: IDENTITY, MISSION, CAPABILITIES, LIMITATIONS, BEHAVIOR, D
 
 - Clearer observable system behavior
 - Better alignment with CTO/architect review
+
+---
+
+## ADR-003: Digital Workforce v1 — Digital Employees
+
+**Date:** 2026-06-30
+**Status:** Accepted
+**Spec affected:** agent-spec, workforce-spec
+
+### Context
+
+Five independent agent folders insufficient for client demo. Need governed division-of-labor roles.
+
+### Decision
+
+Five Digital Employees: customer-service, sales-rep, sales-manager, account-research, follow-up. Add COLLABORATION.md, REASONING_PATTERNS.md, mathematical DECISION_MODEL, split METRICS, full OUTPUT_SCHEMA pipeline.
+
+### Consequences
+
+- Handoffs human-mediated in Phase 1
+- Workforce Manager spec deferred to ADR-004 path
+
+---
+
+## ADR-004: AIMS Layer — Policies, Authority, Trust, Explainability
+
+**Date:** 2026-06-30
+**Status:** Accepted
+**Spec affected:** workforce-spec, agent-spec, platform-spec
+
+### Context
+
+Digital Employees need enterprise realism: authority limits, trust contracts, explainability, organizational policies.
+
+### Decision
+
+Add `policies/` layer, `workforce-spec.md`, per-agent AUTHORITY.md, TRUST_MODEL.md, EXPLAINABILITY.md, BUSINESS_OBJECTIVES.md, shared/ORGANIZATIONAL_MEMORY.md, agents/workforce-manager/ (spec only).
+
+### Consequences
+
+- 21 files per agent before accountability (now 22 per ADR-005)
+- Internal framing: Enterprise AI Management System (AIMS)
+
+---
+
+## ADR-005: Accountability Spec and Architecture Freeze
+
+**Date:** 2026-06-30
+**Status:** Accepted
+**Spec affected:** accountability-spec, agent-spec
+
+### Context
+
+Digital Employees must be accountable for outcomes, not just outputs. Architecture at risk of unbounded expansion.
+
+### Decision
+
+1. Add `accountability-spec.md` as 7th canonical spec
+2. Add `ACCOUNTABILITY.md` to every Digital Employee (22-file set complete)
+3. **Freeze architecture:** no new spec domains or architecture files without ADR
+4. Shift effort from breadth to depth (enterprise content in each agent)
+
+### Consequences
+
+- Seven-spec set is closed until ADR
+- Every agent answers "Am I succeeding?" via ACCOUNTABILITY.md
+- Authority (can do) vs accountability (succeeded) explicitly separated

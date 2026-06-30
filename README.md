@@ -1,67 +1,57 @@
 # SalesWon AI Operator
 
-**The reusable operating system for SalesWon AI** — not a single-customer implementation, but the contract-first foundation for every future SalesWon deployment (and reusable IP for Cohort, Axiom, and AI Council).
+**SalesWon AI Operating System** — Enterprise AI Management System (AIMS) for governed digital employees.
+
+Contract-first foundation for every SalesWon deployment and reusable IP for Cohort, Axiom, and AI Council.
+
+**Architecture frozen** (7 specs) — no new spec domains without ADR. See [architecture/DECISIONS.md](architecture/DECISIONS.md) ADR-005.
 
 ## Start Here
 
-1. Read **[specifications/](specifications/)** — authoritative contracts (ISO-style)
-2. Explore **[architecture/](architecture/)** — SalesWon AI Platform design workspace
-3. Copy **[agents/_template/](agents/_template/)** to create a new agent
+1. [specifications/](specifications/) — 7 canonical contracts
+2. [shared/DIGITAL_WORKFORCE.md](shared/DIGITAL_WORKFORCE.md) — org chart
+3. [agents/](agents/) — five Digital Employees (22 files each)
 
 ## Architecture
 
 ```text
-/specifications          ← Contracts (platform, runtime, agent, governance, data)
-        ↓
-/shared                  ← Layer 1: Business standards (industry IP)
-        ↓
-/runtime                 ← Layer 2: Platform runtime
-        ↓
-/agents                  ← Layer 3: Agent specifications
-        ↓
-/platform                ← Integration surfaces (ServiceNow, RAG, data dictionary)
-        ↓
-/architecture            ← Blueprint workspace
-        ↓
-Customer Configuration   ← Layer 4 (per-deployment, not in this repo)
-        ↓
-Customer Data            ← Layer 5 (CRM — never in source control)
+/specifications     ← 7 contracts (FROZEN)
+/policies           ← Enterprise policies
+/runtime            ← Orchestration + governance
+/shared             ← Playbooks + organizational memory
+/agents             ← Digital Employees + Workforce Manager spec
+/platform           ← ServiceNow, data dictionary, RAG
+/architecture       ← Design workspace + ADRs
 ```
 
-## Governed Response Pipeline
+## Digital Workforce v1
 
-```text
-Business Standards → Runtime → Agent → Customer Config → CRM Context → LLM → Governed Response
-```
+| Employee | Folder |
+|----------|--------|
+| Customer Service | [agents/customer-service/](agents/customer-service/) |
+| Sales Rep | [agents/sales-rep/](agents/sales-rep/) |
+| Sales Manager | [agents/sales-manager/](agents/sales-manager/) |
+| Account Research | [agents/account-research/](agents/account-research/) |
+| Follow-Up | [agents/follow-up/](agents/follow-up/) |
+| Workforce Manager (spec) | [agents/workforce-manager/](agents/workforce-manager/) |
 
-## Specification Index
+## Specification Index (7)
 
 | Spec | File |
 |------|------|
-| Platform | [specifications/platform-spec.md](specifications/platform-spec.md) |
-| Runtime | [specifications/runtime-spec.md](specifications/runtime-spec.md) |
-| Agent | [specifications/agent-spec.md](specifications/agent-spec.md) |
-| Governance | [specifications/governance-spec.md](specifications/governance-spec.md) |
-| Data | [specifications/data-spec.md](specifications/data-spec.md) |
-
-## Adding a New Agent
-
-```powershell
-Copy-Item -Recurse agents\_template agents\your-agent-name
-```
-
-Fill domain files per [specifications/agent-spec.md](specifications/agent-spec.md). Do not redefine runtime or governance in the agent folder.
-
-## Adding a New Business Domain
-
-Add a top-level folder with a README charter (e.g. `/commercial/README.md`). Do not create empty placeholder trees.
+| Platform | [platform-spec.md](specifications/platform-spec.md) |
+| Runtime | [runtime-spec.md](specifications/runtime-spec.md) |
+| Agent | [agent-spec.md](specifications/agent-spec.md) |
+| Governance | [governance-spec.md](specifications/governance-spec.md) |
+| Data | [data-spec.md](specifications/data-spec.md) |
+| Workforce | [workforce-spec.md](specifications/workforce-spec.md) |
+| Accountability | [accountability-spec.md](specifications/accountability-spec.md) |
 
 ## Documentation
 
-- [docs/architecture/platform-layers.md](docs/architecture/platform-layers.md) — layer model and SDK vision
-- [docs/architecture/contract-evolution.md](docs/architecture/contract-evolution.md) — path to executable specifications
-- [docs/implementation/getting-started.md](docs/implementation/getting-started.md) — first agent walkthrough
+- [docs/architecture/platform-layers.md](docs/architecture/platform-layers.md)
+- [docs/implementation/getting-started.md](docs/implementation/getting-started.md)
 
-## License & IP
+## IP
 
-SalesWon AI Agent Specification v1 is Power Tech intellectual property. See specifications for reuse terms across products.
+SalesWon AI Operating System v1 — Power Tech intellectual property.
