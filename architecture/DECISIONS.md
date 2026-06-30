@@ -130,3 +130,31 @@ Digital Employees must be accountable for outcomes, not just outputs. Architectu
 - Seven-spec set is closed until ADR
 - Every agent answers "Am I succeeding?" via ACCOUNTABILITY.md
 - Authority (can do) vs accountability (succeeded) explicitly separated
+
+---
+
+## ADR-006: Runnable POC Code in `/apps/poc-runtime/`
+
+**Date:** 2026-06-30
+**Status:** Accepted
+**Spec affected:** platform-spec, runtime-spec, governance-spec, data-spec
+
+### Context
+
+The repository is spec-first: `/runtime` and `/platform` hold authoritative markdown contracts, not executable code. Phase 1 requires a locally runnable POC shell (chat UI, `/chat` API, connector contracts, scope enforcement) that implements those contracts without polluting spec folders or adding an 8th specification domain.
+
+### Decision
+
+1. Add top-level `/apps/poc-runtime/` as the home for runnable POC code:
+   - `backend/` — FastAPI application implementing runtime-spec, governance-spec, data-spec
+   - `frontend/` — React + Vite chat UI
+2. Keep `/runtime` and `/platform` as markdown-only contracts; POC code references them via `implements:` headers.
+3. No fake demo data; connector and LLM surfaces are stubbed until real credentials are supplied.
+4. Technical documentation lives in `/docs/poc-runtime/`.
+
+### Consequences
+
+- Clear separation between contracts and implementation
+- POC can be deleted or replaced without touching spec files
+- Future Runtime SDK (Phase 2) may migrate patterns from `/apps/poc-runtime/` into a dedicated package
+- Does not add a new spec domain; implements existing frozen specs per ADR-005

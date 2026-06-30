@@ -1,0 +1,17 @@
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.chat-error {
+  padding: 0.5rem 1rem;
+  background: #fee2e2;
+  color: #991b1b;
+  font-size: 0.875rem;
+}
