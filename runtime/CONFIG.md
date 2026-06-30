@@ -1,0 +1,58 @@
+# Runtime Configuration
+
+Implements: [specifications/runtime-spec.md](../specifications/runtime-spec.md), [specifications/governance-spec.md](../specifications/governance-spec.md)
+
+> **Note:** Canonical runtime config file is `runtime/CONFIG.yaml`. Create that file from the block below when implementing the SDK (YAML was deferred during markdown-only scaffold pass).
+
+```yaml
+spec_version: "1.0.0"
+implements: runtime-spec
+
+agent:
+  id: platform-runtime
+  persona_id: saleswon_runtime_v1
+
+execution:
+  deterministic: true
+  allow_llm_narrative: true
+  max_tool_iterations: 5
+  timeout_ms: 30000
+
+evidence:
+  query_ids: []
+
+governance:
+  confidence_thresholds:
+    high: 0.85
+    medium: 0.60
+    low: 0.59
+  require_source_grounding: true
+  forbid_model_only_answers: true
+  audit_enabled: true
+  escalation_on_low_confidence: true
+
+model:
+  provider: azure_openai
+  primary_model: TBD
+  fallback_model: TBD
+  temperature: 0.3
+  max_tokens: 4096
+
+memory:
+  short:
+    max_turns: 20
+    ttl_minutes: 120
+  long:
+    storage: azure_sql
+    retention_days: 365
+
+security:
+  tenant_isolation: required
+  secrets_store: azure_key_vault
+  managed_identity: preferred
+
+decision_engine:
+  default_action_on_ambiguity: ask
+  max_retrieval_attempts: 3
+  retrieval_failure_action: escalate
+```

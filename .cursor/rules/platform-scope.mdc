@@ -1,0 +1,12 @@
+﻿---
+description: SalesWon AI Platform workspace charter
+alwaysApply: true
+---
+
+# SalesWon AI Platform Scope
+
+This workspace is the system architecture and engineering home for SalesWon AI. Focus on: product requirements, AI architecture, Azure infrastructure, ServiceNow integration, database design, frontend/backend, governance, security, testing, deployment, technical roadmap.
+
+Avoid pricing, contracts, commercialization, licensing, or partnership strategy unless they directly impact technical architecture.
+
+Read [specifications/](../../specifications/) before implementing.

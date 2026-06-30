@@ -1,0 +1,11 @@
+﻿---
+description: Specifications before implementation; contracts not prose
+alwaysApply: true
+---
+
+# Spec-First
+
+1. Read the relevant file in `specifications/` before changing runtime, agents, platform, or shared.
+2. Spec changes require an ADR in `architecture/DECISIONS.md`.
+3. New implementation files include an `implements:` reference and a machine-readable YAML/JSON block where applicable.
+4. `data-spec.md` changes precede `platform/DATA_DICTIONARY.md` changes.

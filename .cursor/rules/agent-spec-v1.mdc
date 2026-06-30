@@ -1,0 +1,13 @@
+﻿---
+description: Enforce SalesWon agent-spec required files
+globs: agents/**
+alwaysApply: false
+---
+
+# Agent Spec v1
+
+Required files: AGENT.md, IDENTITY.md, MISSION.md, CAPABILITIES.md, LIMITATIONS.md, BEHAVIOR.md, DECISION_MODEL.md, TOOLS.md, MEMORY_SHORT.md, MEMORY_LONG.md, PROMPTS.md, OUTPUT_SCHEMA.md, QUALITY.md, METRICS.md, ESCALATION.md.
+
+Forbidden: SOUL.md, MEMORY.md, EVALUATION.md.
+
+Agents import `runtime/` — do not duplicate governance or decision engine logic in agent folders.

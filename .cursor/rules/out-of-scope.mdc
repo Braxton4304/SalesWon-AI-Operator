@@ -1,0 +1,8 @@
+﻿---
+description: Block commercial topics unless architecture impact
+alwaysApply: true
+---
+
+# Out of Scope
+
+Do not discuss pricing, contracts, licensing, or partnerships unless the user explicitly ties them to a technical architecture decision.

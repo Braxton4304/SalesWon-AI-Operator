@@ -1,0 +1,14 @@
+﻿---
+description: Runtime and governance conventions
+globs: runtime/**
+alwaysApply: false
+---
+
+# Runtime Governance
+
+Implement [runtime-spec.md](../../specifications/runtime-spec.md) and [governance-spec.md](../../specifications/governance-spec.md).
+
+- No model-only answers
+- Tenant isolation on every data path
+- Confidence bands enforced per CONFIG.yaml
+- Audit record on every governed action
