@@ -18,6 +18,7 @@ export function useChat(userId: string, sessionId: string | null, onSessionId: (
     status?: string | null;
     pending_confirmation_id?: string | null;
     proposed_action?: Record<string, unknown> | null;
+    primary_agent?: string | null;
   }) => {
     setMessages((prev) => [
       ...prev,
@@ -44,6 +45,7 @@ export function useChat(userId: string, sessionId: string | null, onSessionId: (
           status: result.status,
           pending_confirmation_id: result.pending_confirmation_id,
           proposed_action: result.proposed_action ?? undefined,
+          primary_agent: result.primary_agent,
         });
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");

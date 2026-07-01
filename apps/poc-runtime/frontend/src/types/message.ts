@@ -11,6 +11,7 @@ export interface ChatMessage {
   status?: string | null;
   pending_confirmation_id?: string | null;
   proposed_action?: Record<string, unknown> | null;
+  primary_agent?: string | null;
 }
 
 export type { ChatResponse, ConfirmResponse };

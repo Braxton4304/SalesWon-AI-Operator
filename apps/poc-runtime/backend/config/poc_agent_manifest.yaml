@@ -1,0 +1,60 @@
+implements: agent-spec
+poc_assistant:
+  display_name: SalesWon Assistant
+  max_chars_per_file: 8000
+  agents:
+    - id: sales-rep
+      files:
+        - IDENTITY.md
+        - MISSION.md
+        - CAPABILITIES.md
+        - LIMITATIONS.md
+        - BEHAVIOR.md
+        - PROMPTS.md
+        - TOOLS.md
+        - AUTHORITY.md
+      domains:
+        - opportunity
+        - pipeline
+        - activity
+        - lead
+    - id: follow-up
+      files:
+        - IDENTITY.md
+        - CAPABILITIES.md
+        - LIMITATIONS.md
+        - BEHAVIOR.md
+        - PROMPTS.md
+        - TOOLS.md
+      domains:
+        - activity
+        - overdue
+        - reschedule
+    - id: account-research
+      files:
+        - IDENTITY.md
+        - CAPABILITIES.md
+        - LIMITATIONS.md
+        - PROMPTS.md
+        - TOOLS.md
+      domains:
+        - account
+        - contact
+        - research
+    - id: customer-service
+      files:
+        - IDENTITY.md
+        - CAPABILITIES.md
+        - LIMITATIONS.md
+        - PROMPTS.md
+        - TOOLS.md
+      domains:
+        - case
+  shared:
+    - runtime/GOVERNANCE.md
+    - runtime/DECISION_ENGINE.md
+  policies:
+    - policies/SECURITY_POLICY.md
+    - policies/PII_POLICY.md
+    - policies/APPROVAL_POLICY.md
+    - policies/COMMUNICATION_POLICY.md

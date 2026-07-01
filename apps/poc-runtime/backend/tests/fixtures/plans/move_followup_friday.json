@@ -1,0 +1,10 @@
+{
+  "primary_agent": "follow-up",
+  "intent": "update_activity",
+  "object_type": "activity",
+  "filters": {"account_name": "Acme"},
+  "proposed_patch": {"due_date": "next_friday"},
+  "missing_fields": [],
+  "requires_confirmation": true,
+  "confidence": 0.85
+}

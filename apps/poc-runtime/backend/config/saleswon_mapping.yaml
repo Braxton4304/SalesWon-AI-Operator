@@ -1,0 +1,35 @@
+implements: data-spec
+mapping_version: "0.1.0"
+objects:
+  opportunity:
+    table: TODO_opportunity_table
+    fields:
+      amount: TODO_amount_field
+      probability: TODO_probability_field
+      close_date: TODO_close_date_field
+      owner: TODO_owner_field
+      stage: TODO_stage_field
+  activity:
+    table: TODO_activity_table
+    fields:
+      type: TODO_type_field
+      due_date: TODO_due_date_field
+      status: TODO_state_field
+      owner: TODO_owner_field
+      related_account: TODO_account_field
+  account:
+    table: TODO_account_table
+    fields:
+      name: TODO_name_field
+      owner: TODO_owner_field
+  contact:
+    table: TODO_contact_table
+    fields:
+      name: TODO_name_field
+      email: TODO_email_field
+  case:
+    table: TODO_case_table
+    fields:
+      short_description: TODO_short_description_field
+      state: TODO_state_field
+      assigned_to: TODO_assigned_to_field

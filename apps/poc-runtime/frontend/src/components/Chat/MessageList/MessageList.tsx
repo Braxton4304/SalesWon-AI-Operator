@@ -23,6 +23,7 @@ export function MessageList({ messages, onConfirm, loading }: Props) {
                 action={msg.decision_action}
                 confidence={msg.confidence_score}
                 status={msg.status}
+                primaryAgent={msg.primary_agent}
               />
               {msg.decision_action === "ask" && (
                 <ClarificationPrompt content={msg.content} />

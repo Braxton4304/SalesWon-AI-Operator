@@ -1,6 +1,5 @@
-"""Intent module."""
+"""Intent module — executor vocabulary."""
 
-from app.intent.router import IntentRouter, RoutedIntent
 from app.intent.schemas import Intent
 
-__all__ = ["Intent", "IntentRouter", "RoutedIntent"]
+__all__ = ["Intent"]

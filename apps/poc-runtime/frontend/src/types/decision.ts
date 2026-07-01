@@ -16,6 +16,7 @@ export interface ChatResponse {
   pending_confirmation_id?: string | null;
   proposed_action?: Record<string, unknown> | null;
   session_id?: string | null;
+  primary_agent?: string | null;
 }
 
 export interface ConfirmResponse {

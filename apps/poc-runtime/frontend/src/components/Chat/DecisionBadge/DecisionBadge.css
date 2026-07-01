@@ -27,3 +27,11 @@
 .status {
   font-style: italic;
 }
+
+.agent-tag {
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 0.7rem;
+}

@@ -1,0 +1,10 @@
+{
+  "primary_agent": "follow-up",
+  "intent": "search_activities",
+  "object_type": "activity",
+  "filters": {"overdue": true},
+  "missing_fields": [],
+  "requires_confirmation": false,
+  "confidence": 0.86,
+  "user_summary_hint": "List overdue activities by account"
+}

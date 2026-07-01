@@ -1,16 +1,21 @@
 # implements: runtime-spec
 
-"""Azure OpenAI LLM adapter — activates when AZURE_OPENAI_* env vars are set."""
+"""Azure OpenAI LLM adapter — primary planning path with structured JSON output."""
 
 from __future__ import annotations
 
-from typing import Any
+import json
+import logging
 
 import httpx
 
 from app.config.settings import get_settings
-from app.intent.schemas import Intent
-from app.llm.base import FieldExtraction, IntentClassification, LLMNotConfigured, LLMProvider
+from app.llm.base import LLMNotConfigured, LLMProvider
+from app.planning.results import PlanExecutionResult
+from app.planning.schema import ActionPlan
+from app.runtime.prompt_compiler import CompiledPrompt
+
+logger = logging.getLogger(__name__)
 
 
 class AzureOpenAIProvider(LLMProvider):
@@ -23,83 +28,86 @@ class AzureOpenAIProvider(LLMProvider):
                 "Azure OpenAI not configured. Set AZURE_OPENAI_* env vars."
             )
 
-    def _chat(self, messages: list[dict[str, str]]) -> str:
+    def _chat(self, messages: list[dict[str, str]], json_mode: bool = False) -> str:
         self._ensure_configured()
         url = (
             f"{self._settings.azure_openai_endpoint.rstrip('/')}"
             f"/openai/deployments/{self._settings.azure_openai_deployment}"
             "/chat/completions?api-version=2024-02-15-preview"
         )
+        body: dict = {
+            "messages": messages,
+            "temperature": 0.3,
+        }
+        if json_mode:
+            body["response_format"] = {"type": "json_object"}
+
         response = httpx.post(
             url,
             headers={
                 "api-key": self._settings.azure_openai_api_key,
                 "Content-Type": "application/json",
             },
-            json={"messages": messages, "temperature": 0.3},
-            timeout=30.0,
+            json=body,
+            timeout=60.0,
         )
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
 
-    def classify_intent(
-        self, message: str, history: list[dict[str, str]]
-    ) -> IntentClassification:
+    def plan(self, compiled: CompiledPrompt) -> ActionPlan:
         self._ensure_configured()
-        # TODO: structured output / function calling for intent classification
-        _ = history
-        content = self._chat(
-            [
-                {
-                    "role": "system",
-                    "content": (
-                        "Classify the user intent as one of: search_opportunities, "
-                        "search_activities, search_accounts, get_record, update_activity, unknown."
-                    ),
-                },
-                {"role": "user", "content": message},
-            ]
+        messages = [
+            {"role": "system", "content": compiled.system_message},
+            {"role": "developer", "content": compiled.developer_message},
+            *compiled.messages,
+        ]
+        messages.append(
+            {
+                "role": "user",
+                "content": (
+                    "Respond with ONLY a JSON object matching the ActionPlan schema "
+                    "for the latest user message. No markdown."
+                ),
+            }
         )
-        intent_str = content.strip().lower().replace(" ", "_")
+        raw = self._chat(messages, json_mode=True)
         try:
-            intent = Intent(intent_str)
-        except ValueError:
-            intent = Intent.UNKNOWN
-        return IntentClassification(intent=intent, confidence=0.85, raw_text=message)
-
-    def extract_fields(
-        self, intent: Intent, message: str, history: list[dict[str, str]]
-    ) -> FieldExtraction:
-        self._ensure_configured()
-        _ = history
-        content = self._chat(
-            [
-                {
-                    "role": "system",
-                    "content": f"Extract JSON fields for intent {intent.value}.",
-                },
-                {"role": "user", "content": message},
-            ]
-        )
-        # TODO: parse structured JSON from model response
-        return FieldExtraction(fields={"raw": content}, missing_required=[], confidence=0.80)
+            data = json.loads(raw)
+            return ActionPlan.model_validate(data)
+        except (json.JSONDecodeError, ValueError) as exc:
+            logger.warning("Azure plan parse failed: %s", exc)
+            return ActionPlan(
+                primary_agent=compiled.primary_agent,
+                intent="unknown",
+                confidence=0.3,
+                clarifying_question="I could not parse a valid plan. Could you rephrase?",
+                missing_fields=["intent"],
+            )
 
     def generate_response(
         self,
-        intent: Intent,
-        decision_action: str,
-        context: dict[str, Any],
+        plan: ActionPlan,
+        execution: PlanExecutionResult,
+        compiled: CompiledPrompt,
     ) -> str:
         self._ensure_configured()
+        payload = {
+            "plan": plan.model_dump(),
+            "decision_action": execution.decision.decision_action.value,
+            "status": execution.decision.status,
+            "record_count": len(execution.records),
+            "proposed_action": execution.proposed_action,
+        }
         return self._chat(
             [
+                {"role": "system", "content": compiled.system_message},
                 {
-                    "role": "system",
+                    "role": "user",
                     "content": (
-                        f"Generate a governed response for intent={intent.value}, "
-                        f"action={decision_action}."
+                        "Write a concise governed response for the sales user. "
+                        "Do not fabricate CRM data. Use this execution result:\n"
+                        f"{json.dumps(payload, default=str)}"
                     ),
                 },
-                {"role": "user", "content": str(context)},
             ]
         )

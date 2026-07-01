@@ -1,6 +1,6 @@
 # SalesWon AI POC Runtime v1
 
-Connector-ready local POC shell implementing [runtime-spec](../../specifications/runtime-spec.md), [governance-spec](../../specifications/governance-spec.md), and [data-spec](../../specifications/data-spec.md).
+Connector-ready local POC with **unscripted agent runtime** (ADR-007): Azure OpenAI planning, Digital Employee spec loading, structured ActionPlan execution.
 
 See [docs/poc-runtime/README.md](../../docs/poc-runtime/README.md) for full setup and run instructions.
 

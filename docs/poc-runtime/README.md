@@ -1,12 +1,12 @@
 # SalesWon AI POC Runtime — Developer Guide
 
-Implements: [ADR-006](../../architecture/DECISIONS.md), [runtime-spec](../../specifications/runtime-spec.md)
+Implements: [ADR-006](../../architecture/DECISIONS.md), [ADR-007](../../architecture/DECISIONS.md)
 
 ## Prerequisites
 
 - Python 3.11+
 - Node.js 18+
-- No ServiceNow or Azure OpenAI credentials required for local demo
+- Azure OpenAI credentials recommended for unscripted demo (falls back to rule_based without them)
 
 ## Setup
 
@@ -37,28 +37,34 @@ See [backend/.env.example](../backend/.env.example).
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `LLM_PROVIDER` | `rule_based` | `rule_based` or `azure_openai` |
+| `LLM_PROVIDER` | `azure_openai` | `azure_openai` or `rule_based` (fallback) |
+| `AZURE_OPENAI_*` | empty | Required for unscripted Azure planning |
 | `CONNECTOR` | `servicenow` | Connector implementation |
-| `AUDIT_LOG_PATH` | `./audit/events.jsonl` | Local audit trail |
 | `SERVICENOW_*` | empty | Activates live connector when set |
 
-## Demo Flows
+## Unscripted Demo Prompts
 
-1. **Read (connector pending):** "show my open opportunities" → `retrieve` + `connector_pending_credentials`
-2. **Update with clarification:** "update my call activity for ACME" → `ask` for status
-3. **Update with confirmation:** "update my call activity for ACME to done" → `recommend` → Confirm → `retrieve` + `connector_pending_credentials`
-4. **Scope denied:** Set user to `alice`, use configured mock in tests with record owned by `bob`
+Try natural language — no scripted keywords required when Azure is configured:
+
+- "What deals are closing this quarter?"
+- "Which accounts have overdue activities?"
+- "Move my Acme follow-up to Friday."
+- "Mark the Acme call complete."
 
 ## Tests
 
 ```bash
 cd apps/poc-runtime/backend
-pytest -v
+pytest -q
 ```
+
+16 tests: 11 connector-ready plumbing + 5 unscripted plan scenarios (mocked LLM).
 
 ## Related Docs
 
 - [architecture.md](architecture.md)
+- [agent-runtime.md](agent-runtime.md)
+- [saleswon-mapping.md](saleswon-mapping.md)
 - [connector-contract.md](connector-contract.md)
 - [audit-format.md](audit-format.md)
 - [scope-enforcement.md](scope-enforcement.md)

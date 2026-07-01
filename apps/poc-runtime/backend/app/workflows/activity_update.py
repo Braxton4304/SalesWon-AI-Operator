@@ -29,6 +29,7 @@ class WorkflowResponse:
     status: str | None = None
     pending_confirmation_id: str | None = None
     proposed_action: dict[str, Any] | None = None
+    primary_agent: str | None = None
 
 
 class ActivityUpdateWorkflow:
@@ -194,11 +195,7 @@ class ActivityUpdateWorkflow:
         if decision.status:
             context["status"] = decision.status
 
-        response_text = self._llm.generate_response(
-            intent,
-            decision.decision_action.value,
-            context,
-        )
+        response_text = self._narrate(ctx, session, intent, decision, proposed_action)
 
         outcome = outcome_override or self._map_outcome(decision)
         record = AuditRecord(
@@ -226,6 +223,35 @@ class ActivityUpdateWorkflow:
             status=decision.status,
             proposed_action=proposed_action,
         )
+
+    def _narrate(
+        self,
+        ctx: CurrentUserContext,
+        session: SessionState,
+        intent: Intent,
+        decision: DecisionResult,
+        proposed_action: dict[str, Any] | None,
+    ) -> str:
+        from app.planning.results import PlanExecutionResult
+        from app.planning.schema import ActionPlan
+        from app.runtime.prompt_compiler import CompiledPrompt
+
+        plan = ActionPlan(intent=intent.value, confidence=decision.confidence_score)
+        compiled = CompiledPrompt(
+            system_message="",
+            developer_message="",
+            messages=[],
+            user_context=ctx,
+            session_id=session.session_id,
+            current_request="",
+            primary_agent="sales-rep",
+        )
+        execution = PlanExecutionResult(
+            decision=decision,
+            intent=intent,
+            proposed_action=proposed_action,
+        )
+        return self._llm.generate_response(plan, execution, compiled)
 
     @staticmethod
     def _map_outcome(decision: DecisionResult) -> AuditOutcome:

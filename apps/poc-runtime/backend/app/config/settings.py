@@ -22,10 +22,13 @@ class Settings(BaseSettings):
 
     app_env: str = "local"
     tenant_id: str = "dev-tenant"
-    llm_provider: str = "rule_based"
+    llm_provider: str = "azure_openai"
     connector: str = "servicenow"
     audit_log_path: str = "./audit/events.jsonl"
     runtime_config_path: str = "../../../runtime/CONFIG.yaml"
+    agent_repo_root: str = "../../.."
+    poc_agent_manifest_path: str = "config/poc_agent_manifest.yaml"
+    saleswon_mapping_path: str = "config/saleswon_mapping.yaml"
 
     azure_openai_endpoint: str = ""
     azure_openai_api_key: str = ""

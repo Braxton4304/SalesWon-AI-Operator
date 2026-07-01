@@ -158,3 +158,35 @@ The repository is spec-first: `/runtime` and `/platform` hold authoritative mark
 - POC can be deleted or replaced without touching spec files
 - Future Runtime SDK (Phase 2) may migrate patterns from `/apps/poc-runtime/` into a dedicated package
 - Does not add a new spec domain; implements existing frozen specs per ADR-005
+
+---
+
+## ADR-007: Unscripted Agent Runtime in POC
+
+**Date:** 2026-06-30
+**Status:** Accepted
+**Spec affected:** runtime-spec, agent-spec, data-spec, governance-spec
+
+### Context
+
+ADR-006 delivered a connector-ready POC shell with regex-based intent routing (`RuleBasedLLMProvider`). Client demo requires unscripted natural-language planning using Azure OpenAI and the existing Digital Employee specs in `/agents/`, while preserving governed execution (scope enforcement, confirmation before writes, audit logging).
+
+### Decision
+
+1. Extend `/apps/poc-runtime/backend/` with:
+   - `ActionPlan` structured planning contract (`app/planning/`)
+   - Agent contract loader reading from `/agents/` via `config/poc_agent_manifest.yaml`
+   - Prompt compiler implementing `runtime/RUNTIME_CONTEXT.md` assembly order
+   - Azure OpenAI as default LLM provider with `plan()` + structured JSON output
+   - `PlanValidator` + `PlanExecutor` — LLM plans, backend validates, connector executes
+2. Core rule: **LLM plans. Backend validates. Connector executes. User confirms writes.**
+3. `RuleBasedLLMProvider` retained as offline/CI fallback only when Azure creds are missing.
+4. `config/saleswon_mapping.yaml` defines object/table/field mappings (TODO until SalesWon credentials).
+5. No new spec domain; implements frozen specs per ADR-005.
+
+### Consequences
+
+- POC becomes a real agent runtime demo, not a scripted routing shell
+- Single UI assistant; multiple Digital Employee specs compiled internally
+- Full `SalesRepAgentOutput` schema deferred to Phase 2 SDK; slim `ActionPlan` used for execution
+- Prompt context size managed via POC-trimmed agent file subsets in manifest

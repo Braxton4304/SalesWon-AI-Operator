@@ -29,6 +29,7 @@ class ChatResponse(BaseModel):
     pending_confirmation_id: str | None = None
     proposed_action: dict | None = None
     session_id: str | None = None
+    primary_agent: str | None = None
 
 
 @router.post("", response_model=ChatResponse)
@@ -48,4 +49,5 @@ def post_chat(
         pending_confirmation_id=result.pending_confirmation_id,
         proposed_action=result.proposed_action,
         session_id=result.session_id,
+        primary_agent=result.primary_agent,
     )

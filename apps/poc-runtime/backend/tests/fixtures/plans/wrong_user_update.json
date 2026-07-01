@@ -1,0 +1,10 @@
+{
+  "primary_agent": "follow-up",
+  "intent": "update_activity",
+  "object_type": "activity",
+  "filters": {"sys_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "account_name": "Acme"},
+  "proposed_patch": {"status": "done"},
+  "missing_fields": [],
+  "requires_confirmation": true,
+  "confidence": 0.90
+}

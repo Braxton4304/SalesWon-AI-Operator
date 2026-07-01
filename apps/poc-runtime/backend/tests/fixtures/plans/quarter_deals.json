@@ -1,0 +1,11 @@
+{
+  "primary_agent": "sales-rep",
+  "intent": "search_opportunities",
+  "object_type": "opportunity",
+  "filters": {"close_date_range": "this_quarter"},
+  "proposed_patch": null,
+  "missing_fields": [],
+  "requires_confirmation": false,
+  "confidence": 0.88,
+  "user_summary_hint": "Summarize deals closing this quarter"
+}

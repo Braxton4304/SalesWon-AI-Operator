@@ -14,6 +14,7 @@ from app.connectors.saleswon.base import (
     WriteResult,
 )
 from app.connectors.servicenow.adapter import ServiceNowAdapter
+from app.planning.mapping_loader import get_table
 from app.security.user_context import CurrentUserContext
 
 
@@ -32,10 +33,8 @@ class ServiceNowSalesWonConnector(SalesWonConnector):
         self, ctx: CurrentUserContext, filters: dict[str, Any] | None = None
     ) -> list[Record]:
         self._ensure_configured()
-        # TODO: real table name — e.g. opportunity table in ServiceNow SOM
-        # TODO: field mapping per platform/DATA_DICTIONARY.md opportunity object
         return self._adapter.query_table(
-            table="TODO_opportunity_table",
+            table=get_table("opportunity"),
             filters=filters or {},
             ctx=ctx,
         )
@@ -44,10 +43,8 @@ class ServiceNowSalesWonConnector(SalesWonConnector):
         self, ctx: CurrentUserContext, filters: dict[str, Any] | None = None
     ) -> list[Record]:
         self._ensure_configured()
-        # TODO: real table name — e.g. task or activity table
-        # TODO: field mapping per platform/DATA_DICTIONARY.md activity object
         return self._adapter.query_table(
-            table="TODO_activity_table",
+            table=get_table("activity"),
             filters=filters or {},
             ctx=ctx,
         )
@@ -56,10 +53,8 @@ class ServiceNowSalesWonConnector(SalesWonConnector):
         self, ctx: CurrentUserContext, filters: dict[str, Any] | None = None
     ) -> list[Record]:
         self._ensure_configured()
-        # TODO: real table name — e.g. customer_account
-        # TODO: field mapping per platform/DATA_DICTIONARY.md account object
         return self._adapter.query_table(
-            table="TODO_account_table",
+            table=get_table("account"),
             filters=filters or {},
             ctx=ctx,
         )
@@ -68,22 +63,15 @@ class ServiceNowSalesWonConnector(SalesWonConnector):
         self, ctx: CurrentUserContext, object_type: str, sys_id: str
     ) -> Record:
         self._ensure_configured()
-        # TODO: map object_type to ServiceNow table
-        table_map = {
-            "opportunity": "TODO_opportunity_table",
-            "activity": "TODO_activity_table",
-            "account": "TODO_account_table",
-        }
-        table = table_map.get(object_type, f"TODO_{object_type}_table")
+        table = get_table(object_type)
         return self._adapter.get_record(table=table, sys_id=sys_id, ctx=ctx)
 
     def update_activity(
         self, ctx: CurrentUserContext, sys_id: str, patch: dict[str, Any]
     ) -> WriteResult:
         self._ensure_configured()
-        # TODO: real table name and field mapping for activity updates
         return self._adapter.update_record(
-            table="TODO_activity_table",
+            table=get_table("activity"),
             sys_id=sys_id,
             patch=patch,
             ctx=ctx,
