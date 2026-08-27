@@ -1,27 +1,27 @@
-# SalesWon AI Operator
+﻿# SalesWon AI Operator
 
-**SalesWon AI Operating System** — Enterprise AI Management System (AIMS) for governed digital employees.
+**SalesWon AI Operating System** â€” Enterprise AI Management System (AIMS) for governed digital employees.
 
 Contract-first foundation for every SalesWon deployment and reusable IP for Cohort, Axiom, and AI Council.
 
-**Architecture frozen** (7 specs) — no new spec domains without ADR. See [architecture/DECISIONS.md](architecture/DECISIONS.md) ADR-005.
+**Architecture frozen** (7 specs) â€” no new spec domains without ADR. See [architecture/DECISIONS.md](architecture/DECISIONS.md) ADR-005.
 
 ## Start Here
 
-1. [specifications/](specifications/) — 7 canonical contracts
-2. [shared/DIGITAL_WORKFORCE.md](shared/DIGITAL_WORKFORCE.md) — org chart
-3. [agents/](agents/) — five Digital Employees (22 files each)
+1. [specifications/](specifications/) â€” 7 canonical contracts
+2. [shared/DIGITAL_WORKFORCE.md](shared/DIGITAL_WORKFORCE.md) â€” org chart
+3. [agents/](agents/) â€” five Digital Employees (22 files each)
 
 ## Architecture
 
 ```text
-/specifications     ← 7 contracts (FROZEN)
-/policies           ← Enterprise policies
-/runtime            ← Orchestration + governance
-/shared             ← Playbooks + organizational memory
-/agents             ← Digital Employees + Workforce Manager spec
-/platform           ← ServiceNow, data dictionary, RAG
-/architecture       ← Design workspace + ADRs
+/specifications     â† 7 contracts (FROZEN)
+/policies           â† Enterprise policies
+/runtime            â† Orchestration + governance
+/shared             â† Playbooks + organizational memory
+/agents             â† Digital Employees + Workforce Manager spec
+/platform           â† ServiceNow, data dictionary, RAG
+/architecture       â† Design workspace + ADRs
 ```
 
 ## Digital Workforce v1
@@ -52,6 +52,8 @@ Contract-first foundation for every SalesWon deployment and reusable IP for Coho
 - [docs/architecture/platform-layers.md](docs/architecture/platform-layers.md)
 - [docs/implementation/getting-started.md](docs/implementation/getting-started.md)
 
-## IP
+## Ownership & proprietary IP
 
-SalesWon AI Operating System v1 — Power Tech intellectual property.
+**Platform and proprietary intellectual property** in this repository are owned by **Power Tech Consulting LLC**.
+
+All rights reserved. Unauthorized copying, modification, distribution, or use is prohibited except as expressly authorized in writing by Power Tech Consulting LLC.
